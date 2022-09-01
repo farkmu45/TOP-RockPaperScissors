@@ -1,3 +1,6 @@
+let playerScore = 0
+let compScore = 0
+
 function getComputerChoice() {
   const forms = ['Rock', 'Paper', 'Scissors']
   const randomNumber = Math.floor(Math.random() * 3) + 1
@@ -17,14 +20,18 @@ function playRound(playerSelection, computerSelection) {
     playerWon = compareAgainstPaper(computerSelection)
   }
 
-  playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)
-  computerSelection = computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)
+  playerSelection =
+    playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)
+  computerSelection =
+    computerSelection.charAt(0).toUpperCase() + computerSelection.slice(1)
 
   if (playerWon == 1) {
+    playerScore += 1
     return `You Win! ${playerSelection} beats ${computerSelection}`
   } else if (playerWon == 0) {
     return `It's a tie!`
   } else {
+    compScore += 1
     return `You Lose! ${computerSelection} beats ${playerSelection}`
   }
 }
@@ -65,6 +72,14 @@ function game() {
     const playerSelection = prompt('Your turn')
     const computerSelection = getComputerChoice()
     console.log(playRound(playerSelection, computerSelection))
+  }
+
+  if (playerScore == compScore) {
+    console.log("It's a tie!!")
+  } else if (playerScore > compScore) {
+    console.log('You WIN!')
+  } else {
+    console.log('You LOSE :(')
   }
 }
 
