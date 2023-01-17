@@ -1,3 +1,14 @@
+const buttons = document.querySelectorAll('.btn')
+const result = document.getElementById('result')
+const score = document.getElementById('score')
+const winner = document.getElementById('winner')
+
+for (const button of buttons) {
+  button.addEventListener('click', () => {
+    playRound(button.dataset.selection, getComputerChoice())
+  })
+}
+
 let playerScore = 0
 let compScore = 0
 
@@ -8,6 +19,10 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
+  if (playerScore == 5 || compScore == 5) {
+    return
+  }
+
   let playerWon = null
   playerSelection = playerSelection.toLowerCase()
   computerSelection = computerSelection.toLowerCase()
@@ -27,12 +42,20 @@ function playRound(playerSelection, computerSelection) {
 
   if (playerWon == 1) {
     playerScore += 1
-    return `You Win! ${playerSelection} beats ${computerSelection}`
+    result.textContent = `You Win! ${playerSelection} beats ${computerSelection}`
   } else if (playerWon == 0) {
-    return `It's a tie!`
+    result.textContent = `It's a tie!`
   } else {
     compScore += 1
-    return `You Lose! ${computerSelection} beats ${playerSelection}`
+    result.textContent = `You Lose! ${computerSelection} beats ${playerSelection}`
+  }
+
+  score.textContent = `P = ${playerScore}, C = ${compScore}`
+
+  if (playerScore == 5) {
+    winner.textContent = 'The winner is player'
+  } else if (compScore == 5) {
+    winner.textContent = 'The winner is computer'
   }
 }
 
@@ -66,21 +89,3 @@ function compareAgainstRock(form) {
     return 0
   }
 }
-
-function game() {
-  for (let i = 0; i < 5; i++) {
-    const playerSelection = prompt('Your turn')
-    const computerSelection = getComputerChoice()
-    console.log(playRound(playerSelection, computerSelection))
-  }
-
-  if (playerScore == compScore) {
-    console.log("It's a tie!!")
-  } else if (playerScore > compScore) {
-    console.log('You WIN!')
-  } else {
-    console.log('You LOSE :(')
-  }
-}
-
-game()
